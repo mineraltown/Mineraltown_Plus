@@ -9,18 +9,18 @@ const app = Vue.createApp({
             ],
             week: ["日", "一", "二", "三", "四", "五", "六"],
             animal_list: ["chicken", "rabbit", "animal_1", "animal_2"],
-            year: parseInt(localStorage.year),
-            month: parseInt(localStorage.month),
-            day: parseInt(localStorage.day),
-            advance_day: parseInt(localStorage.advance_day),
-            name: localStorage.name,
-            birthday_month: parseInt(localStorage.birthday_month),
-            birthday_day: parseInt(localStorage.birthday_day),
+            year: 1,
+            month: 0,
+            day: 1,
+            advance_day: 7,
+            name: '',
+            birthday_month: 0,
+            birthday_day: 1,
             animal: {
-                chicken: parseInt(localStorage.chicken),
-                rabbit: parseInt(localStorage.rabbit),
-                animal_1: parseInt(localStorage.animal_1),
-                animal_2: parseInt(localStorage.animal_2),
+                chicken: 0,
+                rabbit: 0,
+                animal_1: 0,
+                animal_2: 0,
             },
             resident: "",
             festival: "",
@@ -34,6 +34,8 @@ const app = Vue.createApp({
         if (localStorage.mineraltown_plus == undefined) {
             this.reset()
             this.set_data = true
+        } else {
+            this.localStorage_to_data()
         }
         // 导入JSON数据
         this.import_data()
@@ -65,7 +67,7 @@ const app = Vue.createApp({
         // 修改季节
         switch_month(i, mode) {
             this[mode] = parseInt(i)
-            localStorage[mode] = parseInt(i)
+            this.data_to_localStorage()
         },
         // 修改年份（button）
         switch_year(i) {
@@ -76,7 +78,7 @@ const app = Vue.createApp({
                     this.year = parseInt(this.year) - 1
                 }
             }
-            localStorage.year = this.year
+            this.data_to_localStorage()
         },
         // 修改年份（input）
         change_year(e) {
@@ -88,7 +90,7 @@ const app = Vue.createApp({
             } else {
                 e.target.value = parseInt(this.year)
             }
-            localStorage.year = this.year
+            this.data_to_localStorage()
         },
         // 修改天数（button）
         switch_day(i, mode) {
@@ -111,7 +113,7 @@ const app = Vue.createApp({
                     this[mode] -= 1
                 }
             }
-            localStorage[mode] = this[mode]
+            this.data_to_localStorage()
         },
         // 修改天数（input）
         change_day(e, mode) {
@@ -137,12 +139,12 @@ const app = Vue.createApp({
             } else {
                 e.target.value = parseInt(this[mode])
             }
-            localStorage[mode] = this[mode]
+            this.data_to_localStorage()
         },
         // 修改玩家姓名
         change_my_name(e) {
             this.name = e.target.value
-            localStorage.name = this.name
+            this.data_to_localStorage()
         },
         // 生日：是否在n天之内举行
         test_birthday(i, n) {
@@ -220,36 +222,58 @@ const app = Vue.createApp({
         },
         // 从localStorage写入data
         localStorage_to_data() {
-            this.year = parseInt(localStorage.year)
-            this.month = parseInt(localStorage.month)
-            this.day = parseInt(localStorage.day)
-            this.advance_day = parseInt(localStorage.advance_day)
-            this.name = localStorage.name
-            this.birthday_month = parseInt(localStorage.birthday_month)
-            this.birthday_day = parseInt(localStorage.birthday_day)
+            var d = JSON.parse(localStorage.mineraltown_plus)
+            this.year = parseInt(d["year"])
+            this.month = parseInt(d["month"])
+            this.day = parseInt(d["day"])
+            this.advance_day = parseInt(d["advance_day"])
+            this.name = d["name"]
+            this.birthday_month = parseInt(d["birthday_month"])
+            this.birthday_day = parseInt(d["birthday_day"])
+
+
             for (let i in this.animal_list) {
-                this.animal[this.animal_list[i]] = parseInt(localStorage[this.animal_list[i]])
+                this.animal[this.animal_list[i]] = parseInt(d["animal"][this.animal_list[i]])
             }
+        },
+        // 从data写入localStorage
+        data_to_localStorage() {
+            var d = {
+                "year": this.year,
+                "month": this.month,
+                "day": this.day,
+                "advance_day": this.advance_day,
+                "name": this.name,
+                "birthday_month": this.birthday_month,
+                "birthday_day": this.birthday_day,
+                "animal": {
+                    "chicken": this.animal["chicken"],
+                    "rabbit": this.animal["rabbit"],
+                    "animal_1": this.animal["animal_1"],
+                    "animal_2": this.animal["animal_2"]
+                }
+            }
+            localStorage.mineraltown_plus = JSON.stringify(d)
         },
         // 初始化
         reset() {
             console.log("初始化")
-            localStorage.mineraltown_plus = true
-            // 设置时间
-            localStorage.year = 1
-            localStorage.month = 0
-            localStorage.day = 1
-            // 提前提醒天数
-            localStorage.advance_day = 7
-            // 主人公信息
-            localStorage.name = "Pite"
-            localStorage.birthday_month = 0
-            localStorage.birthday_day = 1
-            // 动物妊娠
-            for (let i in this.animal_list) {
-                localStorage[this.animal_list[i]] = 0
+            var d = {
+                "year": 1,
+                "month": 0,
+                "day": 1,
+                "advance_day": 7,
+                "name": "Pite",
+                "birthday_month": 0,
+                "birthday_day": 1,
+                "animal": {
+                    "chicken": 0,
+                    "rabbit": 0,
+                    "animal_1": 0,
+                    "animal_2": 0
+                }
             }
-            // 从localStorage写入data
+            localStorage.mineraltown_plus = JSON.stringify(d)
             this.localStorage_to_data()
         },
         // 动物妊娠_长按开始的时候
@@ -257,15 +281,16 @@ const app = Vue.createApp({
             // 刚开始按时触发
             if (this.animal[e] == 0) {
                 if (e == "chicken") {
-                    localStorage[e] = this.animal[e] = 3
+                    this.animal[e] = 3
                     console.log(e + ': 将一个鸡蛋放入孵蛋箱')
                 } else if (e == "rabbit") {
-                    localStorage[e] = this.animal[e] = 5
+                    this.animal[e] = 5
                     console.log(e + ': 对安哥拉兔使用了人工配种器。')
                 } else {
-                    localStorage[e] = this.animal[e] = 21
+                    this.animal[e] = 21
                     console.log(e + ': 对牛/羊/羊驼使用了人工配种器。')
                 }
+                this.data_to_localStorage()
             }
             let then = this
             // 清理掉计时器，防止重复注册定时器
@@ -273,7 +298,8 @@ const app = Vue.createApp({
             this.loop = setTimeout(function () {
                 // 按过的0.5秒后触发
                 then.loop = 0
-                localStorage[e] = then.animal[e] = 0
+                then.animal[e] = 0
+                this.data_to_localStorage()
                 console.log(e + ': 取消了妊娠状态。')
             }, 500)
         },
@@ -309,20 +335,18 @@ const app = Vue.createApp({
                     this.year += 1
                 }
             }
-            localStorage.day = this.day
-            localStorage.month = this.month
-            localStorage.year = this.year
             console.log('第' + this.year + '年 ' + this.season[this.month][1] + this.day + '日 星期' + this.week[((this.year - 1) * 120 + this.month * 30 + this.day - 1) % 7])
             // 动物妊娠天数 -1
             for (i in this.animal) {
                 if (this.animal[i] != 0) {
                     this.animal[i] -= 1
-                    localStorage[i] = this.animal[i]
                     if (this.animal[i] == 0) {
                         console.log(i + ': 动物出生了。')
                     }
                 }
             }
+            // 存档
+            this.data_to_localStorage()
         },
     },
 })
