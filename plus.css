@@ -1,0 +1,676 @@
+@charset "utf-8";
+/* CSS Document */
+
+[v-cloak] {
+    display: none;
+}
+
+@font-face {
+    font-family: '975MaruSC';
+    src: url('./975MaruSC-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: '975MaruSC';
+    src: url('./975MaruSC-Bold.ttf');
+    font-weight: bold;
+    font-style: normal;
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #ffffff;
+    font-family: '975MaruSC';
+    user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+}
+
+body {
+    margin: 0 auto;
+    padding: 0;
+    color: #555;
+    width: 92%;
+    max-width: 1200px;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+#plus {
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+}
+
+p,
+li {
+    line-height: 1.7em;
+}
+
+a {
+    color: #555555;
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    transition: color 0.25s;
+    -moz-transition: color 0.25s;
+    -webkit-transition: color 0.25s;
+    -o-transition: color 0.25s;
+}
+
+a:hover {
+    color: #198d44;
+}
+
+img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+}
+
+input {
+    font-family: '975MaruSC';
+}
+
+.title {
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 0 1em 0;
+    border-bottom: solid 1px #555;
+}
+
+.title img {
+    width: 80px;
+}
+
+.title_sub {
+    margin-left: 2em;
+}
+
+.title_sub h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.slogan {
+    font-size: 0.8em;
+    margin: 0.5em 0 0 0;
+    padding: 0;
+}
+
+.main {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.main h2 {
+    margin: 1em 0 1em 0;
+    width: 13em;
+    padding: 10px 0 10px 0;
+    text-align: center;
+    background-color: #555;
+    color: white;
+    border-radius: 5px;
+}
+
+.block {
+    background-color: #dddddd;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 20em;
+    margin: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.block h3 {
+    width: 3.5em;
+    margin: 0;
+    text-align: center;
+}
+
+.block_title {
+    margin: 10px;
+    padding: 0;
+}
+
+.season {
+    flex-grow: 1;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 1em;
+}
+
+.season_month {
+    border-radius: 5px;
+    text-align: center;
+    width: 2.5em;
+    margin: 0 5px 0 5px;
+    height: 2.5em;
+    line-height: 2.5em;
+    border-radius: 5px;
+    border: solid 1px transparent;
+    transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+}
+
+.spring {
+    color: #00ad94;
+    border: solid 1px #00ad94;
+    background-color: #9ad1cb;
+}
+
+.spring_none {
+    color: #ffffff;
+    background-color: #aad7d2aa;
+}
+
+.spring_none:hover {
+    background-color: #9ad1cb;
+}
+
+.summer {
+    color: #45933a;
+    border: solid 1px #45933a;
+    background-color: #88c283;
+}
+
+.summer_none {
+    color: #ffffff;
+    background-color: #88c283aa;
+}
+
+.summer_none:hover {
+    background-color: #88c283;
+}
+
+.autumn {
+    color: #e28100;
+    border: solid 1px #e28100;
+    background-color: #efbb66;
+}
+
+.autumn_none {
+    color: #ffffff;
+    background-color: #efbb66aa;
+}
+
+.autumn_none:hover {
+    background-color: #efbb66;
+}
+
+.winter {
+    color: #308ece;
+    border: solid 1px #308ece;
+    background-color: #a7cae6;
+}
+
+.winter_none {
+    color: #ffffff;
+    background-color: #a7cae6aa;
+}
+
+.winter_none:hover {
+    background-color: #a7cae6;
+}
+
+.year_season {
+    flex-grow: 1;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 1em;
+}
+
+.year_arrow {
+    margin: 0 20px 0 20px;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    background-color: #999999;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+}
+
+.year_arrow:hover {
+    background-color: #198d4480;
+}
+
+.year_arrow:active {
+    background-color: #198d44;
+}
+
+.year_text {
+    flex-grow: 0;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+.year_text input {
+    width: 3em;
+    text-align: center;
+    outline: none;
+    border: none;
+    color: #555;
+    font-size: 1em;
+    background-color: transparent;
+}
+
+.advance_text {
+    font-size: 1em !important;
+}
+
+.name_text {
+    flex-grow: 0;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+.name_text input {
+    width: 11em;
+    text-align: center;
+    outline: none;
+    border: none;
+    color: #555;
+    font-size: 0.9em;
+    padding: 5px 0 5px 0;
+    border-radius: 5px;
+    background-color: #eeeeee;
+}
+
+.save {
+    width: 22.22em;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.save_button {
+    margin: 0.5em 0 0.5em 0;
+    width: 90%;
+    padding: 10px 0 10px 0;
+    text-align: center;
+    background-color: #bbbbbb;
+    color: #ffffff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+}
+
+.save_button:hover {
+    background-color: #999999;
+}
+
+.save_button:active {
+    background-color: #555555;
+}
+
+.highlight {
+    background-color: #198d4499;
+}
+
+.highlight:hover {
+    background-color: #198d44cc;
+}
+
+.highlight:active {
+    background-color: #198d44;
+}
+
+/* 正式内容 */
+.data {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0.5em 0 0.5em 0;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.data_right {
+    font-weight: bold;
+    padding: 5px;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.data_time {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+}
+
+/* 提醒 */
+.todo {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0.5em 0 0.5em 0;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.todo_title {
+    align-self: flex-start;
+    width: 6em;
+    text-align: center;
+    padding: 5px;
+    margin-bottom: 10px;
+    background-color: #999999;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.todo_sub {
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.5em;
+}
+
+.todo_right {
+    margin-right: 0.5em;
+    text-align: right;
+    font-size: 1.5em;
+}
+
+.todo_card {
+    border-radius: 5px;
+    width: 100%;
+    margin: 5px 0 5px 0;
+    position: relative;
+    background-color: #ddd;
+}
+
+.todo_card_today {
+    background-color: #ccc;
+}
+
+.todo_flex {
+    margin: 10px;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.todo_name {
+    font-size: 1.5em;
+    font-weight: bold;
+    z-index: 11;
+}
+
+.todo_name_note {
+    margin-left: 1em;
+    font-size: 0.6em;
+    z-index: 10;
+}
+
+.wool {
+    background-color: #b36c6d;
+    color: #ffffff;
+}
+
+.warning {
+    color: #b36c6d;
+}
+
+/* 提醒_生日 */
+.birthday_like_sub {
+    line-height: 2em;
+    font-weight: bold;
+    z-index: 19;
+}
+
+.birthday_like {
+    z-index: 10;
+}
+
+.birthday_myself {
+    font-size: 0.9em;
+}
+
+.birthday_days {
+    position: absolute;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #bbbbbb;
+    top: 10px;
+    right: 1em;
+    z-index: 1;
+}
+
+.gray {
+    color: #888;
+}
+
+.normal {
+    font-weight: normal;
+}
+
+/* 节日 */
+.function {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.function_left {
+    width: 50%;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.function_right {
+    width: 100%;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+
+/* 动物妊娠 */
+.pregnant {
+    width: 24%;
+    height: 4em;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-top: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    -moz-transition: background-color 0.3s, color 0.3s;
+    -webkit-transition: background-color 0.3s, color 0.3s;
+    -o-transition: background-color 0.3s, color 0.3s;
+}
+
+.pregnant_not {
+    color: #aaaaaa;
+    background-color: #dddddd;
+}
+
+.pregnant_not:hover {
+    color: #999999;
+    background-color: #cccccc;
+}
+
+.pregnant_yes {
+    color: #198d44;
+    background-color: #bce0ca;
+}
+
+.animal {
+    font-size: 1em;
+}
+
+.animal_day {
+    font-size: 0.8em;
+}
+
+/* 设置 */
+.setting_button {
+    margin: 1em 0 1em 0;
+    width: 25%;
+    height: 2.5em;
+    line-height: 2.5em;
+    text-align: center;
+    color: #ffffff;
+    background-color: #bbbbbb;
+    border-radius: 5px;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+}
+
+.setting_button:hover {
+    background-color: #999999;
+}
+
+.setting_button:active {
+    background-color: #555555;
+}
+
+/* 商店 */
+.shop {
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin: 5px 0 5px 0;
+    padding: 10px 0 10px 0;
+    background-color: #ddd;
+    font-size: 0.9em;
+}
+
+.working_day {
+    color: #198d44;
+    margin: 0 0.5em 0 0.5em;
+}
+
+.working_day_red {
+    color: #9b4546;
+    margin: 0 0.5em 0 0.5em;
+}
+
+.holiday {
+    color: #aaa;
+    margin: 0 0.5em 0 0.5em;
+}
+
+/* 底部 */
+.bottom_spacing {
+    height: 5em;
+}
+
+.next {
+    position: fixed;
+    bottom: 0;
+    width: 90%;
+    padding: 0 5% 0 5%;
+    max-width: 1000px;
+    height: 5em;
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+    background: #ffffff;
+}
+
+.next_button {
+    margin: 1em 0 1em 0;
+    width: 70%;
+    height: 2.5em;
+    line-height: 2.5em;
+    text-align: center;
+    color: #ffffff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    -moz-transition: background-color 0.3s;
+    -webkit-transition: background-color 0.3s;
+    -o-transition: background-color 0.3s;
+}

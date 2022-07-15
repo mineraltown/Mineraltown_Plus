@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge, chrome=1">
+    <link rel="stylesheet" href="plus.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/saikai/Plus/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/saikai/Plus/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/saikai/Plus/icon/favicon-16x16.png">
+    <link rel="manifest" href="/saikai/Plus/icon/site.webmanifest">
+    <link rel="shortcut icon" href="/saikai/Plus/icon/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="矿石镇Plus">
+    <meta name="application-name" content="矿石镇Plus">
+    <meta name="msapplication-TileColor" content="#333333">
+    <meta name="msapplication-config" content="/saikai/Plus/icon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <script src="https://unpkg.com/vue@3.2.36/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    <title>矿石镇 Plus</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9JX4C52TL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-T9JX4C52TL');
+    </script>
+</head>
+<!--
+    版本 ver 1.0.0
+    作者 矿石镇的攻略百科
+    网站 wiki.mineraltown.net
+    E-Mail friends@mineraltown.net
+
+    本站使用 WTFPL 协议开源，你他妈的想干嘛就干嘛。
+
+    如需清空缓存，请在控制台输入：localStorage.clear()
+    如遇BUG请尝试清空本地缓存，或将bug截图及说明发送至本站联系邮箱。
+ -->
+
+<body>
+    <div id="plus" v-cloak>
+        <!-- 标题 -->
+        <div class="title">
+            <img src="plus.svg">
+            <div class="title_sub">
+                <h1>矿石镇 Plus</h1>
+                <p class="slogan">为牧场生活助力，一切尽在掌握。</p>
+            </div>
+        </div>
+        <!-- 设置时间 -->
+        <div class="main" v-if="set_data && !set_birthday">
+            <h2>设置时间</h2>
+            <div class="block">
+                <h3>年</h3>
+                <div class="year_season">
+                    <div class="year_arrow" @click="switch_year('sub')"><img src="arrow-left-s-fill.svg"></div>
+                    <div class="year_text"><input type="text" :value="year" @input="change_year"></div>
+                    <div class="year_arrow" @click="switch_year('add')"><img src="arrow-right-s-fill.svg"></div>
+                </div>
+            </div>
+            <div class="block">
+                <h3>月</h3>
+                <div class="season">
+                    <div v-for="(s,i) in season" :class="[i==month ? s[0] : s[0]+'_none', 'season_month']"
+                        @click="switch_month(i,'month')">
+                        {{ s[1] }}</div>
+                </div>
+            </div>
+            <div class="block">
+                <h3>日</h3>
+                <div class="year_season">
+                    <div class="year_arrow" @click="switch_day('sub','day')"><img src="arrow-left-s-fill.svg"></div>
+                    <div class="year_text"><input type="text" :value="day" @input.native="change_day($event, 'day')">
+                    </div>
+                    <div class="year_arrow" @click="switch_day('add','day')"><img src="arrow-right-s-fill.svg"></div>
+                </div>
+            </div>
+            <h3 class="block_title">事件提前提醒</h3>
+            <div class="block">
+                <div class="year_season">
+                    <div class="year_arrow" @click="switch_day('sub','advance_day')"><img src="arrow-left-s-fill.svg">
+                    </div>
+                    <div class="year_text advance_text">事件提前<input type="text" :value="advance_day"
+                            @input.native="change_day($event, 'advance_day')">天提醒</div>
+                    <div class="year_arrow" @click="switch_day('add','advance_day')"><img src="arrow-right-s-fill.svg">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="save">
+                <div class="save_button" @click="reset">初始化</div>
+                <div class="save_button highlight" @click="this.set_birthday=true">继续</div>
+            </div>
+        </div>
+        <!-- 主人公信息 -->
+        <div class="main" v-if="set_data && set_birthday">
+            <h2>主人公信息</h2>
+            <div class="block">
+                <h3>姓名</h3>
+                <div class="year_season">
+                    <div class="name_text"><input type="text" :value="name" @input="change_my_name"></div>
+                </div>
+            </div>
+            <h3 class="block_title">生日</h3>
+            <div class="block">
+                <h3>月</h3>
+                <div class="season">
+                    <div v-for="(s,i) in season" :class="[i==birthday_month ? s[0] : s[0]+'_none', 'season_month']"
+                        @click="switch_month(i,'birthday_month')">
+                        {{ s[1] }}</div>
+                </div>
+            </div>
+            <div class="block">
+                <h3>日</h3>
+                <div class="year_season">
+                    <div class="year_arrow" @click="switch_day('sub','birthday_day')"><img src="arrow-left-s-fill.svg">
+                    </div>
+                    <div class="year_text"><input type="text" :value="birthday_day"
+                            @input.native="change_day($event, 'birthday_day')"></div>
+                    <div class="year_arrow" @click="switch_day('add','birthday_day')"><img src="arrow-right-s-fill.svg">
+                    </div>
+                </div>
+            </div>
+            <div class="save">
+                <div class="save_button highlight" @click="this.set_birthday=false;this.set_data=false;import_data()">
+                    继续</div>
+            </div>
+        </div>
+        <div class="main" v-if="!set_data">
+            <!-- 游戏时间 -->
+            <div class="data">
+                <div class="todo_title">游戏时间</div>
+                <div class="data_right">
+                    <div :class="season[month][0]" class="data_time"></div>
+                    第{{ year }}年&nbsp;&nbsp;{{ season[month][1] }}{{ day }}日&nbsp;&nbsp;星期{{ week[((this.year - 1) * 120 + this.month * 30 + this.day - 1) % 7] }}
+                </div>
+            </div>
+            <!-- 商店营业信息 -->
+            <div class="shop">
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==4 || if_festival() ? 'holiday' : 'working_day'">铁匠铺
+                </div>
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==0 || if_festival() ? 'holiday' : 'working_day'">养鸡场
+                </div>
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==1 || if_festival() ? 'holiday' : 'working_day'">
+                    约德尔牧场</div>
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==6 || if_festival() ? 'holiday' : 'working_day'">果树园
+                </div>
+                <div :class="if_festival() ? 'holiday' : 'working_day'">旅馆</div>
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==1 || if_festival() ? 'holiday' : 'working_day'">图书馆
+                </div>
+                <div
+                    :class="((year-1)*120 + month*30 + day - 1)%7==0 || ((year-1)*120 + month*30 + day - 1)%7==2 || if_festival() ? 'holiday' : 'working_day'">
+                    杂货店</div>
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==3 || if_festival() ? 'holiday' : 'working_day'">医院
+                </div>
+                <div
+                    :class="((year-1)*120 + month*30 + day - 1)%7==1 && !if_festival() || ((year-1)*120 + month*30 + day - 1)%7==3 && !if_festival() ? 'working_day' : 'holiday'">
+                    教堂</div>
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==6 || if_festival() ? 'holiday' : 'working_day'">伐木之家
+                </div>
+                <div :class="if_festival() ? 'holiday' : 'working_day'">霍安的店</div>
+                <div
+                    :class="((year-1)*120 + month*30 + day - 1)%7!=0 && month == 1 && !if_festival() ? 'working_day' : 'holiday'">
+                    海之家
+                </div>
+                <div :class="((year-1)*120 + month*30 + day - 1)%7==3 && !if_festival() ? 'working_day' : 'holiday'">班的店
+                </div>
+                <div :class="day==15 && !if_festival() ? 'working_day_red' : 'holiday'">宠物店</div>
+            </div>
+            <div class="function">
+                <!-- <div class="function_left">
+                    {{animal}}
+                </div> -->
+                <!-- 动物妊娠 -->
+                <div class="function_right">
+                    <div :class="[animal['chicken']==0 ? 'pregnant_not' : 'pregnant_yes','pregnant']"
+                        @mousedown="set_animal_start('chicken')" @mouseup="set_animal_end('chicken')"
+                        @touchstart.prevent="set_animal_start('chicken')" @touchend.prevent="set_animal_end('chicken')">
+                        <div :class="animal['chicken']==0 ? '' : 'animal'">孵蛋箱</div>
+                        <div class="animal_day" v-if="animal['chicken']!=0">距出生{{ animal['chicken'] }}天</div>
+                    </div>
+                    <div :class="[animal['rabbit']==0 ? 'pregnant_not' : 'pregnant_yes','pregnant']"
+                        @mousedown="set_animal_start('rabbit')" @mouseup="set_animal_end('rabbit')"
+                        @touchstart.prevent="set_animal_start('rabbit')" @touchend.prevent="set_animal_end('rabbit')">
+                        <div :class="animal['rabbit']==0 ? '' : 'animal'">安哥拉兔</div>
+                        <div class="animal_day" v-if="animal['rabbit']!=0">距出生{{ animal['rabbit'] }}天</div>
+                    </div>
+                    <div :class="[animal['animal_1']==0 ? 'pregnant_not' : 'pregnant_yes','pregnant']"
+                        @mousedown="set_animal_start('animal_1')" @mouseup="set_animal_end('animal_1')"
+                        @touchstart.prevent="set_animal_start('animal_1')"
+                        @touchend.prevent="set_animal_end('animal_1')">
+                        <div :class="animal['animal_1']==0 ? '' : 'animal'">牛羊小屋</div>
+                        <div class="animal_day" v-if="animal['animal_1']!=0">距出生{{ animal['animal_1'] }}天</div>
+                    </div>
+                    <div :class="[animal['animal_2']==0 ? 'pregnant_not' : 'pregnant_yes','pregnant']"
+                        @mousedown="set_animal_start('animal_2')" @mouseup="set_animal_end('animal_2')"
+                        @touchstart.prevent="set_animal_start('animal_2')"
+                        @touchend.prevent="set_animal_end('animal_2')">
+                        <div :class="animal['animal_2']==0 ? '' : 'animal'">牛羊小屋</div>
+                        <div class="animal_day" v-if="animal['animal_2']!=0">距出生{{ animal['animal_2'] }}天</div>
+                    </div>
+                </div>
+            </div>
+            <!-- 事件提醒 -->
+            <div class="todo">
+                <div class="todo_title">事件提醒</div>
+                <!-- 软绵绵节专属置顶提醒 -->
+                <div class="todo_card wool" v-if="month==2 && day == 14">
+                    <div class="todo_flex">答应我，准备参加参加软绵绵节的动物，从今天开始就不要剪毛了好吗？</div>
+                </div>
+                <!-- 五年一次的流星 -->
+                <div class="todo_card todo_card_today wool" v-if="year%5==0 && month==2 && day == 10">
+                    <div class="todo_flex">
+                        <div class="todo_name">流星</div>
+                        <div class="birthday_like_sub">地点：<span class="normal">山顶</span></div>
+                        <div class="birthday_like_sub">时间：<span class="normal">PM6:00 ～ AM:6:00</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 自己的生日 -->
+                <div class="todo_card todo_card_today" v-if="birthday_month == month && birthday_day == day">
+                    <div class="todo_flex">
+                        <div class="todo_name">{{ name }}</div>
+                        <div class="birthday_like_sub">今天是你的生日，祝你生日快乐！</div>
+                        <div class="birthday_like birthday_myself">“对所有的烦恼说 Bye Bye，对所有的快乐说 Hi Hi”</div>
+                    </div>
+                </div>
+                <!-- 节日 -->
+                <template v-for="i in festival">
+                    <template v-if="i.month == season[month][1] && i.day == day">
+                        <div class="todo_card todo_card_today">
+                            <div class="todo_flex">
+                                <div class="todo_name">{{ i.name.cn }}</div>
+                                <template v-if="i.address != null">
+                                    <div class="birthday_like_sub">地点：<span class="normal">{{ i.address }}</span></div>
+                                    <div class="birthday_like_sub">时间：<span class="normal">{{ i.start_time }} ～
+                                            {{ i.end_time }}</span>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="birthday_like_sub">时间：<span class="normal">全天</span>
+                                    </div>
+                                </template>
+                                <template v-if="i.note != null">
+                                    <div v-html="i.note"></div>
+                                </template>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <!-- 生日 -->
+                <template v-for="i in resident">
+                    <template v-if="i.birthday.month == season[month][1] && i.birthday.day == day">
+                        <div class="todo_card todo_card_today">
+                            <div class="todo_flex">
+                                <div class="todo_name">{{ i.name.cn }}</div>
+                                <div class="birthday_like_sub" v-if="i.like.best.length != 0">最喜欢</div>
+                                <div class="birthday_like" v-if="i.like.best.length != 0"><template
+                                        v-for="(x,y) in i.like.best">
+                                        <span v-if="y<i.like.best.length-1">{{ x }}、</span>
+                                        <span v-else>{{ x }}</span>
+                                    </template></div>
+                                <div class="birthday_like_sub">喜欢</div>
+                                <div class="birthday_like"><template v-for="(x,y) in i.like.more">
+                                        <span v-if="y<i.like.more.length-1">{{ x }}、</span>
+                                        <span v-else>{{ x }}</span>
+                                    </template></div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <template v-if="advance_day!=0">
+                    <template v-for="n in advance_day">
+                        <!-- 节日：提前x天 -->
+                        <template v-for="i in festival">
+                            <template v-if="test_festival(i,n)">
+                                <div class="todo_card">
+                                    <div class="birthday_days">{{ i.month }}{{ i.day }}日</div>
+                                    <div class="todo_flex">
+                                        <div class="todo_name gray">{{ i.name.cn }}<span
+                                                class="todo_name_note">距离{{ i.name.cn }}还有{{ n }}天<br><span
+                                                    v-if="i.name.cn=='软绵绵节'" class="warning">（不要剪羊毛了！）</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <!-- 生日：提前x天 -->
+                        <template v-for="i in resident">
+                            <template v-if="test_birthday(i,n)">
+                                <div class="todo_card">
+                                    <div class="birthday_days">{{ i.birthday.month }}{{ i.birthday.day }}日</div>
+                                    <div class="todo_flex">
+                                        <div class="todo_name gray">{{ i.name.cn }}<span
+                                                class="todo_name_note">距离生日还有{{ n }}天</span></div>
+                                        <div class="birthday_like_sub gray" v-if="i.like.best.length != 0">最喜欢</div>
+                                        <div class="birthday_like gray" v-if="i.like.best.length != 0"><template
+                                                v-for="(x,y) in i.like.best">
+                                                <span v-if="y<i.like.best.length-1">{{ x }}、</span>
+                                                <span v-else>{{ x }}</span>
+                                            </template></div>
+                                        <div class="birthday_like_sub gray">喜欢</div>
+                                        <div class="birthday_like gray"><template v-for="(x,y) in i.like.more">
+                                                <span v-if="y<i.like.more.length-1">{{ x }}、</span>
+                                                <span v-else>{{ x }}</span>
+                                            </template></div>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                </template>
+            </div>
+            <!-- 空出固定的功能区的位置 -->
+            <div class="bottom_spacing"></div>
+            <!-- 功能区 -->
+            <div class="next">
+                <div class="setting_button" @click="this.set_data=true"><img src="./list-settings-line.svg">设置</div>
+                <div class="next_button highlight" @click="next">下一天</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="plus.js"></script>
+
+</html>
