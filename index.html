@@ -235,7 +235,7 @@
                 <!-- 节日 -->
                 <template v-for="i in festival">
                     <template v-if="i.month == season[month][1] && i.day == day">
-                        <div class="todo_card todo_card_today">
+                        <div class="todo_card todo_card_today" v-if="!(year == 1 && i.name.cn == '年糕大会')">
                             <div class="todo_flex">
                                 <div class="todo_name">{{ i.name.cn }}</div>
                                 <template v-if="i.address != null">

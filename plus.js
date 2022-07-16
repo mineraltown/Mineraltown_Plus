@@ -230,8 +230,6 @@ const app = Vue.createApp({
             this.name = d["name"]
             this.birthday_month = parseInt(d["birthday_month"])
             this.birthday_day = parseInt(d["birthday_day"])
-
-
             for (let i in this.animal_list) {
                 this.animal[this.animal_list[i]] = parseInt(d["animal"][this.animal_list[i]])
             }
