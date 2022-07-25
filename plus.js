@@ -13,7 +13,7 @@ const app = Vue.createApp({
             month: 0,
             day: 1,
             advance_day: 7,
-            name: '',
+            name: "",
             birthday_month: 0,
             birthday_day: 1,
             animal: {
@@ -22,6 +22,7 @@ const app = Vue.createApp({
                 animal_1: 0,
                 animal_2: 0,
             },
+            cookbook: "",
             resident: "",
             festival: "",
             set_data: false,
@@ -62,6 +63,10 @@ const app = Vue.createApp({
             // 节日信息
             axios.get("Festival.json").then((response) => {
                 this.festival = response.data
+            })
+            // 菜谱
+            axios.get("Cookbook.json").then((response) => {
+                this.cookbook = response.data
             })
         },
         // 修改季节

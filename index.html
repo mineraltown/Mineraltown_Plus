@@ -224,6 +224,17 @@
                         </div>
                     </div>
                 </div>
+                <!-- 超美味时间 -->
+                <template v-for="i in cookbook">
+                    <template v-if="i.year == year && i.month == season[month][1] && i.day == day">
+                        <div class="todo_card todo_card_today">
+                            <div class="todo_flex">
+                                <div class="todo_name">{{ i.name }}</div>
+                                <div class="birthday_like_sub">记得看电视节目「{{i.note}}」！</span></div>
+                            </div>
+                        </div>
+                    </template>
+                </template>
                 <!-- 自己的生日 -->
                 <div class="todo_card todo_card_today" v-if="birthday_month == month && birthday_day == day">
                     <div class="todo_flex">
