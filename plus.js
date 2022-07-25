@@ -302,7 +302,7 @@ const app = Vue.createApp({
                 // 按过的0.5秒后触发
                 then.loop = 0
                 then.animal[e] = 0
-                this.data_to_localStorage()
+                then.data_to_localStorage()
                 console.log(e + ': 取消了妊娠状态。')
             }, 500)
         },
