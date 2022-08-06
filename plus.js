@@ -53,8 +53,10 @@ const app = Vue.createApp({
                         if (
                             response.data[i]["birthday"]["day"] == localStorage.birthday_day
                         ) {
-                            response.data[i]["birthday"]["day"] =
-                                response.data[i]["birthday"]["day2"]
+                            if (response.data[i]["birthday"]["day2"] != null) {
+                                response.data[i]["birthday"]["day"] =
+                                    response.data[i]["birthday"]["day2"]
+                            }
                         }
                     }
                 }
