@@ -48,10 +48,10 @@ const app = Vue.createApp({
             axios.get("Resident.json").then((response) => {
                 for (i in response.data) {
                     if (
-                        response.data[i]["birthday"]["month"] == this.season[this.month][1]
+                        response.data[i]["birthday"]["month"] == this.season[this.birthday_month][1]
                     ) {
                         if (
-                            response.data[i]["birthday"]["day"] == localStorage.birthday_day
+                            response.data[i]["birthday"]["day"] == this.birthday_day
                         ) {
                             if (response.data[i]["birthday"]["day2"] != null) {
                                 response.data[i]["birthday"]["day"] =
